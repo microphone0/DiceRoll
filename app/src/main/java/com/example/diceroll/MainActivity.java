@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView imageViewDice;
     private Random rng = new Random();
+    private TextView critmiss;
+    private TextView crithit;
     private MediaPlayer roll;
     private MediaPlayer miss;
     private MediaPlayer hit;
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        critmiss = findViewById(R.id.CritMiss);
+        crithit = findViewById(R.id.CritHit);
         roll = MediaPlayer.create(MainActivity.this,R.raw.rolldice);
         miss = MediaPlayer.create(MainActivity.this,R.raw.metalclang);
         hit = MediaPlayer.create(MainActivity.this,R.raw.metalgong);
@@ -40,9 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
         roll.start();
 
+        if (critmiss.isShown())
+            critmiss.setVisibility(View.INVISIBLE);
+
+        if (crithit.isShown())
+            crithit.setVisibility(View.INVISIBLE);
+
         switch (randomNumber) {
             case 1:
                 imageViewDice.setImageResource(R.mipmap.d201);
+                critmiss.setVisibility(View.VISIBLE);
                 miss.start();
                 break;
             case 2:
@@ -101,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 20:
                 imageViewDice.setImageResource(R.mipmap.d2020);
+                crithit.setVisibility(View.VISIBLE);
                 hit.start();
                 break;
         }
